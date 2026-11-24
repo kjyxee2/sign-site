@@ -1,4 +1,5 @@
 # Publishes the static frontend/ folder to GitHub Pages on every push to main.
+# Same layout as GitHub's official static Pages template: build (upload artifact) -> deploy.
 name: Deploy frontend to GitHub Pages
 
 on:
@@ -12,16 +13,14 @@ permissions:
   pages: write
   id-token: write
 
+# Allow one concurrent deployment; queue new runs instead of cancelling an in-progress one.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
       # Optional: set repository variable SIGN_API_BASE (Settings > Secrets and variables > Actions > Variables)
@@ -34,5 +33,13 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
