@@ -17,7 +17,14 @@ function videoId(value) {
   return m ? m[1] : null;
 }
 
+// On GitHub Pages the backend must be configured explicitly (config.js, repo variable, or ?api=).
+const NO_BACKEND = !API && location.hostname.endsWith('github.io');
+const NO_BACKEND_MESSAGE = '번역 서버 주소가 아직 설정되지 않았습니다.\n'
+  + '백엔드를 HTTPS로 공개한 뒤 config.js(또는 저장소 변수 SIGN_API_BASE)에 주소를 넣거나, 주소 뒤에 ?api=https://... 를 붙여 주세요.';
+if (NO_BACKEND) document.getElementById('startError').textContent = NO_BACKEND_MESSAGE;
+
 async function api(path, options) {
+  if (NO_BACKEND) throw new Error(NO_BACKEND_MESSAGE);
   let res;
   try {
     res = await fetch(API + path, options);
@@ -52,6 +59,7 @@ $('startForm').addEventListener('submit', async e => {
       try {
         subs = (await api('/api/youtube/captions?url=' + encodeURIComponent(vid))).segments;
       } catch (err) {
+        if (NO_BACKEND) throw err;
         throw new Error(err.message + '\n자막 파일(.srt/.vtt)을 선택해 다시 시도해 주세요.');
       }
     }
