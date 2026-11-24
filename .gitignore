@@ -1,0 +1,24 @@
+# Local Python packages and caches
+.deps/
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime output
+logs/
+tests/*.png
+
+# Secrets / local settings
+.env
+.env.*
+
+# Large model and avatar files stay on the server (never commit > 100MB)
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.vrm
+*.zip
+*.mp4
+*.webm

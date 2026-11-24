@@ -1,0 +1,8 @@
+# Web layer (installed into ./.deps by run_local.sh)
+fastapi==0.115.6
+uvicorn==0.32.1
+python-multipart==0.0.20
+youtube-transcript-api==1.2.3
+# Model layer - already present in the training venv; install these yourself on a new server:
+# torch==2.5.1
+# transformers==4.46.3

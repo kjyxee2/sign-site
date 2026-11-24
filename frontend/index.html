@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수어 번역 플레이어</title>
+<meta name="description" content="유튜브 영상의 한국어 자막을 수어 아바타로 번역해 함께 보여 줍니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+  "@pixiv/three-vrm":"https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.4.2/lib/three-vrm.module.min.js"
+}}
+</script>
+<script src="config.js"></script>
+</head>
+<body>
+<section id="start" class="start">
+  <div class="start-card">
+    <h1>수어 번역 플레이어</h1>
+    <p class="lead">유튜브 링크를 넣으면 한국어 자막을 수어 아바타로 번역해 영상과 함께 보여 줍니다.</p>
+    <form id="startForm" novalidate>
+      <label class="field">
+        <span>유튜브 링크</span>
+        <input id="url" type="url" inputmode="url" autocomplete="off" required
+               placeholder="https://www.youtube.com/watch?v=..." aria-describedby="startError">
+      </label>
+      <label class="field file">
+        <span>자막 파일 <em>(선택 · .srt / .vtt)</em></span>
+        <input id="subtitleFile" type="file" accept=".srt,.vtt">
+        <small>파일을 고르지 않으면 유튜브 한국어 자막을 자동으로 가져옵니다.</small>
+      </label>
+      <button id="startButton" type="submit" class="primary">번역 시작</button>
+      <p id="startStatus" class="status" role="status" aria-live="polite"></p>
+      <p id="startError" class="error" role="alert"></p>
+    </form>
+  </div>
+  <p class="foot">자동 번역 결과이며 한국수어 의미·문법 전문가 검수를 거치지 않았습니다.</p>
+</section>
+
+<section id="player" class="player" hidden>
+  <header class="bar">
+    <button id="back" type="button" class="ghost" aria-label="다른 영상 번역">← 다른 영상</button>
+    <span id="playerStatus" class="status" role="status" aria-live="polite"></span>
+  </header>
+  <main class="split">
+    <div class="pane">
+      <div class="stage"><div id="yt"></div></div>
+      <div class="caption" aria-live="polite">
+        <span class="caption-label">한국어 자막</span>
+        <p id="koCaption" class="caption-text"></p>
+      </div>
+    </div>
+    <div class="pane">
+      <div class="stage avatar-stage" id="avatarStage">
+        <div id="avatarLoading" class="overlay">아바타 준비 중…</div>
+      </div>
+      <div class="caption" aria-live="polite">
+        <span class="caption-label">수어 단어</span>
+        <p id="glossCaption" class="caption-text gloss"></p>
+      </div>
+    </div>
+  </main>
+  <p class="foot">자동 번역 결과이며 의미·문법 검수 전입니다. 회색 단어는 수어 동작 데이터가 없어 아바타가 표현하지 않습니다.</p>
+</section>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
