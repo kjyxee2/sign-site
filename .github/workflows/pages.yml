@@ -23,7 +23,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # Optional: set repository variable SIGN_API_BASE (Settings > Secrets and variables > Actions > Variables)
       # to the public HTTPS address of the backend instead of editing frontend/config.js.
       - name: Write backend address
@@ -31,7 +31,7 @@ jobs:
         run: |
           printf "window.SIGN_API_BASE = window.SIGN_API_BASE ?? '%s';\n" "${{ vars.SIGN_API_BASE }}" > frontend/config.js
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: frontend
       - id: deployment
